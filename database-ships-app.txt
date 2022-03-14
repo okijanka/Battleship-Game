@@ -1,0 +1,53 @@
+CREATE TABLE Users (
+    idUser int NOT NULL AUTO_INCREMENT,
+    login varchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
+    email varchar(255) NOT NULL,
+    PRIMARY KEY (idUser)
+);
+
+CREATE TABLE Statistics (
+    idStatistics int NOT NULL AUTO_INCREMENT,
+    idUser int NOT NULL,
+    numberOfGames int NOT NULL,
+    wonGames int NOT NULL,
+    lostGames int NOT NULL,
+    accuracy int NOT NULL,
+    numberOfAllShots int NOT NULL,
+    numberOfHitShots int NOT NULL,
+    PRIMARY KEY (idStatistics)
+);
+
+CREATE TABLE Games (
+    idGame int NOT NULL  AUTO_INCREMENT,
+    idWhoWon int NOT NULL,
+    idWhoLost int NOT NULL,
+    gameTime varchar(255) NOT NULL,
+    PRIMARY KEY (idGame)
+);
+
+CREATE TABLE Moves (
+    idMove int NOT NULL  AUTO_INCREMENT,
+    idGame int NOT NULL,
+    xRow int NOT NULL,
+    yColumn int NOT NULL,
+    idWhoMoved int NOT NULL,
+    hit bool NOT NULL,
+    shipDestroyed bool NOT NULL,
+    PRIMARY KEY (idMove)
+);
+ALTER TABLE Statistics ADD CONSTRAINT Statistics_fk0 FOREIGN KEY (idUser) REFERENCES Users(idUser);
+
+ALTER TABLE Games ADD CONSTRAINT Games_fk0 FOREIGN KEY (idWhoWon) REFERENCES Users(idUser);
+
+ALTER TABLE Games ADD CONSTRAINT Games_fk1 FOREIGN KEY (idWhoLost) REFERENCES Users(idUser);
+
+ALTER TABLE Moves ADD CONSTRAINT Moves_fk0 FOREIGN KEY (idGame) REFERENCES Games(idGame) ON DELETE CASCADE;
+
+ALTER TABLE Moves ADD CONSTRAINT Moves_fk1 FOREIGN KEY (idWhoMoved) REFERENCES Users(idUser);
+
+INSERT INTO users(login, password, email) VALUES ('bot', 'bot', 'bot');
+
+INSERT INTO users(login, password, email) VALUES ('bot1', 'bot1', 'bot1');
+
+INSERT INTO users(login, password, email) VALUES ('bot2', 'bot2', 'bot2');
